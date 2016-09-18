@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class Farmacia {
 	static Random gerador = new Random();
-	static Medicamento medicamento = new Medicamento();
+	static Medicamento medicamento;
 	static List<Medicamento> medicamentos = new ArrayList<Medicamento>();
 
 	public static void main(String[] args) {
@@ -27,7 +27,11 @@ public class Farmacia {
 			menu();
 			break;
 		case 2:
-			imprimirMedicamentos(medicamentos);
+			imprimirMedicamentos();
+			menu();
+			break;
+		case 3:
+			consultaMedicamento();
 			menu();
 			break;
 		default:
@@ -36,8 +40,10 @@ public class Farmacia {
 		}
 		
 	}
+
+
 	public static int getOption(){
-		 String[] options = new String[] {"Finalizar Aplicação","Cadastrar Medicamento", "Imprimir medicamentos"};
+		 String[] options = new String[] {"Finalizar Aplicação","Cadastrar Medicamento", "Imprimir medicamentos","Consulta medicamento"};
 		    int response = JOptionPane.showOptionDialog(null, "Informe o que deseja", "Sistema de cadastro",
 		        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 		        null, options, options[0]);
@@ -72,6 +78,7 @@ public class Farmacia {
 	}
 	
 	public static Medicamento cadastrarMedicamentos() {
+		medicamento = new  Medicamento();
 		medicamento.setCodigo(JOptionPane.showInputDialog("Codigo do medicamento"));
 		medicamento.setNome(JOptionPane.showInputDialog("Nome do medicamento"));
 		medicamento.setDescricao(JOptionPane.showInputDialog("Descricao do medicamento"));
@@ -85,10 +92,39 @@ public class Farmacia {
 		
 		return medicamento;
 	}
-	public static void imprimirMedicamentos(List<Medicamento> medicamentos){
-		for(Medicamento medicamento: medicamentos){
-			medicamento.imprimir();
+
+	private static void imprimirMedicamentos() {
+		String aux = "";
+		int cont = 1;
+		boolean bl = false;
+		for (Medicamento d : medicamentos) {
+			if (d == null){
+				bl=false;
+				break;
+			}
+			bl = true;
+			aux += "\n\n"+cont+" Código: " + d.getCodigo() +"\nNome: "+d.getNome()
+					+"\nDescricao: "+d.getDescricao()+"\nTipo: "+d.getTipo()+"\nEstoque: "+d.getEstoque();
+			cont++;
 		}
+		if (bl == true)
+			JOptionPane.showMessageDialog(null,aux);
+		else
+		JOptionPane.showMessageDialog(null,"Lista vazia");
 	}
 
+	private static void consultaMedicamento() {
+		String resposta = JOptionPane.showInputDialog("Descricao do medicamento",JOptionPane.YES_OPTION); 
+		if(medicamentos.isEmpty()){
+			JOptionPane.showMessageDialog(null, "Lista Vazia!");
+		}
+		else{
+			for (Medicamento medicamentos : medicamentos) {
+				if(resposta.equals(medicamentos.getNome()) )
+					JOptionPane.showMessageDialog(null, "\n\n"+"Codigo: "+medicamentos.getCodigo()
+							+"Nome: "+medicamentos.getNome());
+				
+			}
+		}		
+	}
 }
