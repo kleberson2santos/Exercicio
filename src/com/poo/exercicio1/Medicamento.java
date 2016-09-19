@@ -1,6 +1,6 @@
 package com.poo.exercicio1;
 
-public class Medicamento{
+public class Medicamento implements Cloneable{
 
 	private String codigo;
 	private String nome;
@@ -20,6 +20,10 @@ public class Medicamento{
 	
 	public Medicamento() { 
 	}
+	@Override
+    public Medicamento clone() throws CloneNotSupportedException {
+        return (Medicamento) super.clone();
+    }
 
 	public void imprimir(){
 		System.out.println("Codigo: "+this.codigo);
